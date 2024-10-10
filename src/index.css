@@ -1,13 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Roboto', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.App {
+  text-align: center;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.App.light {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.App.dark {
+  background-color: #333;
+  color: #f5f5f5;
+}
+
+.header {
+  transition: background-color 0.3s ease;
+}
+
+.App.dark .header {
+  background-color: #1a237e;
+}
+
+.logo {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.sidebar {
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.App.light .sidebar {
+  background-color: #fff;
+}
+
+.App.dark .sidebar {
+  background-color: #424242;
+}
+
+.editor-container {
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.App.light .editor-container {
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.App.dark .editor-container {
+  background-color: #424242;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+.top-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.top-buttons button {
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.top-buttons button:hover {
+  transform: scale(1.05);
+}
+
+.filter {
+  margin-bottom: 20px;
+}
+
+.image-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+}
+
+.image-list-item {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.image-list-item:hover {
+  transform: scale(1.05);
+}
+
+.metadata-container {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.App.dark .metadata-container {
+  background-color: #616161;
+}
+
+/* Fade-in animation for components */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.editor-container, .sidebar {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Zoom effect for images */
+.zoom-effect {
+  transition: transform 0.3s ease;
+}
+
+.zoom-effect:hover {
+  transform: scale(1.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Responsive design */
+@media (max-width: 960px) {
+  .App {
+    padding: 10px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sidebar {
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .editor-container {
+    margin-bottom: 20px;
+  }
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+/* Tooltip styles */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Button pulse effect */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(63, 81, 181, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(63, 81, 181, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(63, 81, 181, 0);
+  }
+}
+
+.pulse-button {
+  animation: pulse 2s infinite;
+}
+
+/* Smooth transition for theme switch */
+.theme-transition {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Image gallery grid layout */
+.image-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 20px;
+}
+
+.image-gallery img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.image-gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation buttons */
+.image-container .MuiIconButton-root {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.image-container .MuiIconButton-root:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.image-container .MuiIconButton-root:first-child {
+  left: 10px;
+}
+
+.image-container .MuiIconButton-root:last-child {
+  right: 10px;
+}
+
+.App.dark .image-container .MuiIconButton-root {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.App.dark .image-container .MuiIconButton-root:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
